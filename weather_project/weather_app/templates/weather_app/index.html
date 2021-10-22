@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Weather App</title>
+</head>
+<body>
+    <nav class="navbar bg-info text-white py-3 px-5 shadow-sm">
+        <div class="container-fluid ">
+            <h1>
+                What's the Weather like??
+            </h1>
+        </div>
+    </nav>
+
+    <div class="container mt-5 ms-5">
+        <form class="mb-5" method="POST">
+            {% csrf_token %}
+            <div class="row">
+            <div class="col">
+                {{form.name}}
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Add City</button>
+                <a href="{% url 'delete_all' %}" class="btn btn-danger">Delete All</a>
+            </div>
+            </div>
+        </form>
+
+        <div class="d-flex flex-wrap gap-3 mt-3">
+            {% for city in cities %}
+                <div class="bg-success text-white p-3 rounded shadow-lg">
+                    <div class=" d-flex">
+                        <div class="flex-shrink-0">
+                            <img src="http://openweathermap.org/img/w/{{city.icon_id}}.png" alt="...">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h2>{{city.name}}</h2>
+                            <p class="mb-0">{{city.temperature}}° C</p>
+                            <small class="mb-0">{{city.description}}</small>
+                        </div>
+                    <a href="{% url 'delete' city.id %}" class="btn-close d-block ms-3"></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
